@@ -16,4 +16,5 @@ __global__ void simple_1d_gen(float *a, float *b, int n)
         a[idx] = idx;
         b[idx] = idx  + 1.0f;
     }
+    printf("simpledatagen: thread %d, block %d\n", threadIdx.x, blockIdx.x);
 }
