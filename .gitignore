@@ -1,3 +1,8 @@
+# Directory and files
+cuda/metis_cuda
+*.o*
+**.json*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
