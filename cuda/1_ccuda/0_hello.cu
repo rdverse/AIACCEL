@@ -38,3 +38,11 @@ int main(){
     return 0;
 
 }
+
+// NVIDIA 2070 Super
+// Max Threads Per Block: 1024
+// Max Threads Per Multiprocessor: 1024
+// Number of SMs: 40
+// Warp Size: 32
+// Max Grid Size: (2147483647, 65535, 65535)
+// Max Block Size: (1024, 1024, 64)
