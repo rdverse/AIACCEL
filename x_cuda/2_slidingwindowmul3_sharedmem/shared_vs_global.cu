@@ -1,5 +1,6 @@
 
 // Compare shared memory vs global memory access performance
+// TODO : strides and n neighbor
 
 #include <cuda_runtime.h>
 #include <iostream>
@@ -49,9 +50,7 @@ __global__ void no_shared_memory_kernel(float* input, float* output, int width) 
         next_bx = bx + 1 < nblocks ? bx + 1 : 0; // wrap around to 0
         next_data = input[bdim*next_bx + next_tx]; // updated to use next_bx
     }
-
     output[bdim*bx + tx] = input[bdim*bx + tx] * prev_data * next_data; 
-
 }
 
 //-----------------------------------------------------------
@@ -230,7 +229,6 @@ int main() {
 }
 
 
-
 // Total threads: 256
 // Threads per block: 64
 // Number of blocks: 4
@@ -277,3 +275,8 @@ int main() {
 //   [NO Shared Memory]  Time = 0.007168 ms
 //   [WITH Shared Memory] Time = 14.2863 ms
 //   Speedup for shared = 0.000501739x
+
+
+// almost all cases show that shared memory is slower than global memory
+// the are when this could see benefits is potentially when we do 
+// larger convolutions where we would see more data reuse than using 3 elements

@@ -2,7 +2,10 @@
 cuda/metis_cuda
 *.o*
 **.json*
-
+**.sw**
+*.log
+test.cu
+*.out
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
