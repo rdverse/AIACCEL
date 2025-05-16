@@ -6,6 +6,7 @@ cuda/metis_cuda
 *.log
 test.cu
 *.out
+*.pdf
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
