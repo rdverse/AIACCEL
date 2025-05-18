@@ -3,6 +3,18 @@
 #include <simple_funcs.h>
 #include <image_data_gen.h>
 
+#include <map> 
+
+
+/*
+
+This code is comparing the performance of fused kernels vs separate kernels for grayscale conversion and blurring of an image.
+
+Overall, there is a small fractional improvement in the fused kernel. Some filter shapes give larger improvement .
+
+The fused kernel can be made more efficient but to make an apple to apple comparison, the only change is merging the grayscale and blurring into one kernel.
+
+*/
 
 __global__ void grayscale_kernel(unsigned char* image, unsigned char* gray_image, int width, int height){
     /*
@@ -14,9 +26,9 @@ __global__ void grayscale_kernel(unsigned char* image, unsigned char* gray_image
 
     if (x_coord < width && y_coord < height) {
         int pixel_index = (y_coord*width + x_coord)*3;
-        unsigned char r = image[pixel_index];
-        unsigned char g = image[pixel_index + 1];
-        unsigned char b = image[pixel_index + 2];
+        unsigned int r = image[pixel_index];
+        unsigned int g = image[pixel_index + 1];
+        unsigned int b = image[pixel_index + 2];
         // fewer ops - 2 add and 1 divide
         unsigned char gray = (r + g + b) / 3;
         // more ops - 2 add and 3 multiply
@@ -90,7 +102,14 @@ __global__ void blur_grayscale_fused_kernel(unsigned char* image,
     //     threadIdx.x, blockIdx.x, x_coord, y_coord);
     // convert to grayscale
     if (x_coord < width && y_coord < height) {
-        image[y_coord*width + x_coord] = (image[y_coord*width + x_coord] + image[y_coord*width + x_coord + 1] + image[y_coord*width + x_coord + 2]) / 3;
+        int pixel_index = (y_coord*width + x_coord)*3;
+        unsigned int r = image[pixel_index];
+        unsigned int g = image[pixel_index + 1];
+        unsigned int b = image[pixel_index + 2];
+        unsigned char gray = (r + g + b) / 3;
+        image[pixel_index] = gray;
+        image[pixel_index + 1] = gray;
+        image[pixel_index + 2] = gray;
     }
     
     if (x_coord<width && y_coord<height){
@@ -131,6 +150,49 @@ __global__ void blur_grayscale_fused_kernel(unsigned char* image,
     }
 }
 
+struct KernelTiming {
+    float grayscale_time;
+    float blur_time;
+    float blur_grayscale_time;
+    float fused_time;
+    float filter_size;
+    float deltatime;
+    float percent_improvement;
+};
+
+
+void print_results(std::map<int, KernelTiming> results) {
+    // Print the table header
+    std::cout << std::left
+              << std::setw(15) << "Filter Size"
+              << std::setw(20) << "Grayscale Time"
+              << std::setw(20) << "Blur Time"
+              << std::setw(25) << "Blur + Grayscale Time"
+              << std::setw(15) << "Fused Time"
+              << std::setw(20) << "nonfuse-fuse time"
+              << std::setw(25) << "(nonfuse-fuse)/non-fuse%"
+              << std::endl;
+
+    // Print a separator line
+    std::cout << std::string(130, '-') << std::endl;
+
+    // Print each result in the map
+    for (const auto& result : results) {
+        const auto& timing = result.second;
+        std::cout << std::left
+                  << std::setw(15) << timing.filter_size 
+                  << std::setw(20) << std::fixed << std::setprecision(6) << timing.grayscale_time
+                  << std::setw(20) << std::fixed << std::setprecision(6) << timing.blur_time
+                  << std::setw(25) << std::fixed << std::setprecision(6) << timing.blur_grayscale_time
+                  << std::setw(15) << std::fixed << std::setprecision(6) << timing.fused_time
+                  << std::setw(20) << std::fixed << std::setprecision(6) << timing.deltatime
+                  << std::setw(6) << std::fixed << std::setprecision(2) << timing.percent_improvement
+                  << "%"
+                  << std::endl;
+    }
+    
+}
+
 int main() {
     // print gpu specs
     print_gpuspecs();
@@ -141,7 +203,7 @@ int main() {
     int width = handler.getWidth();
     int height = handler.getHeight();
 
-
+    std::map<int, KernelTiming> results;
 
     unsigned char* d_image;
     unsigned char* d_gray_image;
@@ -166,6 +228,7 @@ int main() {
     dim3 block(16, 16, 1);
 
     cudaEvent_t start_gray, stop_gray;
+    float grayscalems = 0;
     cudaEventCreate(&start_gray);
     cudaEventCreate(&stop_gray);
     cudaEventRecord(start_gray, 0);
@@ -176,16 +239,15 @@ int main() {
     //} 
     cudaEventRecord(stop_gray, 0);
     cudaEventSynchronize(stop_gray);
-    float grayscalems = 0;
     cudaEventElapsedTime(&grayscalems, start_gray, stop_gray);
-    std::cout << "Grayscale conversion took " << grayscalems << " ms." << std::endl;
+    //std::cout << "Grayscale conversion took " << grayscalems << " ms." << std::endl;
     
     cudaMemcpy(h_gray_image, d_gray_image, width * height * 3 * sizeof(unsigned char), cudaMemcpyDeviceToHost);
    
     // sweep for blur only kernel
     cudaEvent_t start_blur, stop_blur;
     float blurms = 0;
-    for (int i = 20; i > 3; i--) {
+    for (int i = 40; i >= 0; i--) {
     blur_filter_size = i;
     cudaEventCreate(&start_blur);
     cudaEventCreate(&stop_blur);
@@ -194,11 +256,20 @@ int main() {
     cudaEventRecord(stop_blur, 0);
     cudaEventSynchronize(stop_blur);
     cudaEventElapsedTime(&blurms, start_blur, stop_blur);
-    std::cout << "Blur kernel time: " << blurms << " ms. " << "Total time (blur + grayscale) : " << blurms + grayscalems << " ms. " << "Filter size: " << blur_filter_size*2+1 << std::endl;
+    //std::cout << "Blur kernel time: " << blurms << " ms. " << "Total time (blur + grayscale) : " << blurms + grayscalems << " ms. " << "Filter size: " << blur_filter_size*2+1 << std::endl;
+    results[blur_filter_size] = {grayscalems, 
+                                blurms,
+                                grayscalems + blurms, 
+                                0, // set this in fused kernel
+                                (float)(blur_filter_size*2+1), 
+                                0,
+                                0}; // set this in fused kernel
     }
-    
-    // sweep for fused kernel 
-    for (int i = 20; i > 3; i--) {
+
+    // sweep for blur kernel 
+    // cache locality seems to favoring fused kernel , so rerun the blur kernel
+    for (int i = 40; i >= 0; i--) {
+    blurms=0;
     blur_filter_size = i;
     cudaEventCreate(&start_blur);
     cudaEventCreate(&stop_blur);
@@ -207,11 +278,38 @@ int main() {
     cudaEventRecord(stop_blur, 0);
     cudaEventSynchronize(stop_blur);
     cudaEventElapsedTime(&blurms, start_blur, stop_blur);
-    std::cout << "Fused kernel time: " << blurms << " ms. " << "Filter size: " << blur_filter_size*2+1 << std::endl;
-    }
-
+    //std::cout << "Fused kernel time: " << blurms << " ms. " << "Filter size: " << blur_filter_size*2+1 << std::endl;
+    
+    results[blur_filter_size].fused_time = blurms;
+    results[blur_filter_size].deltatime = results[blur_filter_size].fused_time - results[blur_filter_size].blur_grayscale_time;
+    results[blur_filter_size].percent_improvement = results[blur_filter_size].deltatime / results[blur_filter_size].blur_grayscale_time * 100.0f;
+    if (i==10){
     cudaMemcpy(h_blurred_image, d_blurred_image, width * height * 3 * sizeof(unsigned char), cudaMemcpyDeviceToHost);
     handler.saveImage(h_blurred_image, "blurred_image.png");
+    }
+    }
+
+
+    for (int i = 40; i >= 0; i--) {
+    blurms=0;
+    blur_filter_size = i;
+    cudaEventCreate(&start_blur);
+    cudaEventCreate(&stop_blur);
+    cudaEventRecord(start_blur, 0);
+    blur_kernel<<<grid, block>>>(d_gray_image, d_blurred_image, width, height, blur_filter_size);
+    cudaEventRecord(stop_blur, 0);
+    cudaEventSynchronize(stop_blur);
+    cudaEventElapsedTime(&blurms, start_blur, stop_blur);
+    //std::cout << "Blur kernel time: " << blurms << " ms. " << "Total time (blur + grayscale) : " << blurms + grayscalems << " ms. " << "Filter size: " << blur_filter_size*2+1 << std::endl;
+    results[blur_filter_size].blur_time = blurms;
+    results[blur_filter_size].blur_grayscale_time = grayscalems + blurms;
+    results[blur_filter_size].deltatime = blurms - results[blur_filter_size].fused_time; 
+    results[blur_filter_size].percent_improvement = results[blur_filter_size].deltatime / results[blur_filter_size].blur_grayscale_time * 100.0f;
+    }
+
+
+
+    print_results(results);
     handler.saveImage(h_gray_image, "gray_image.png");
     handler.saveImage(h_image, "color_image.png");
 
