@@ -85,9 +85,6 @@ def get_cache_info():
     print("warning - latencies are incorrect")
     cachespec = subprocess.run(['sudo', 'dmidecode', '-t', 'cache'])
     print(cachespec.stdout)
-    get_dimm_info()
-     
-    return {}
 
 
 def measure_memory_bandwidth(matrix, access_pattern="row"):

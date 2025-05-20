@@ -4,6 +4,19 @@ conda env create -f environment.yml
 conda activate uarch
 '''
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Steps for profiling
 1. Install uprof
 2. check - sudo cat /proc/sys/kernel/perf_event_paranoid
