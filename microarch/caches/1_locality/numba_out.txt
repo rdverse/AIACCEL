@@ -1,0 +1,16 @@
+Matrix size: 65536 x 65536 (17.18 GB)
+
+[Numba] Row-major traversal
+  Sum = 2147476817.7
+  Time = 0.765024 s
+  Bandwidth = 22.46 GB/s
+
+[Numba] Row-major traversal parallel
+  Sum = 2147476816.7
+  Time = 0.650466 s
+  Bandwidth = 26.41 GB/s
+
+[NumPy] Row-major traversal
+  Sum = 2147481984.0
+  Time = 1.187686 s
+  Bandwidth = 14.46 GB/s
