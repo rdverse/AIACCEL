@@ -1,0 +1,62 @@
+Running benchmark...
+# Devices
+
+## [0] `NVIDIA GeForce RTX 2070 SUPER`
+* SM Version: 750 (PTX Version: 750)
+* Number of SMs: 40
+* SM Default Clock Rate: 1770 MHz
+* Global Memory: 7181 MiB Free / 7778 MiB Total
+* Global Memory Bus Peak: 448 GB/sec (256-bit DDR @7001MHz)
+* Max Shared Memory: 64 KiB/SM, 48 KiB/Block
+* L2 Cache Size: 4096 KiB
+* Maximum Active Blocks: 16/SM
+* Maximum Active Threads: 1024/SM, 1024/Block
+* Available Registers: 65536/SM, 65536/Block
+* ECC Enabled: No
+
+# Log
+
+```
+Run:  [1/8] matmul_benchmark [Device=0 M=1024 N=1024 K=1024]
+Pass: Cold: 2.898872ms GPU, 2.913356ms CPU, 3.90s total GPU, 3.96s total wall, 1344x 
+Pass: Batch: 2.972677ms GPU, 4.00s total GPU, 4.09s total wall, 1345x
+Run:  [2/8] matmul_benchmark [Device=0 M=2048 N=1024 K=1024]
+Pass: Cold: 5.933372ms GPU, 5.973172ms CPU, 4.46s total GPU, 4.57s total wall, 752x 
+Pass: Batch: 6.083926ms GPU, 4.58s total GPU, 4.66s total wall, 753x
+Run:  [3/8] matmul_benchmark [Device=0 M=1024 N=2048 K=1024]
+Pass: Cold: 6.160934ms GPU, 6.202465ms CPU, 5.82s total GPU, 5.96s total wall, 944x 
+Pass: Batch: 6.084857ms GPU, 5.75s total GPU, 5.81s total wall, 945x
+Run:  [4/8] matmul_benchmark [Device=0 M=2048 N=2048 K=1024]
+Pass: Cold: 12.459788ms GPU, 12.504406ms CPU, 8.57s total GPU, 8.68s total wall, 688x 
+Pass: Batch: 12.123649ms GPU, 8.35s total GPU, 8.38s total wall, 689x
+Run:  [5/8] matmul_benchmark [Device=0 M=1024 N=1024 K=2048]
+Pass: Cold: 6.117105ms GPU, 6.137427ms CPU, 4.70s total GPU, 4.74s total wall, 768x 
+Pass: Batch: 6.129501ms GPU, 4.71s total GPU, 4.74s total wall, 769x
+Run:  [6/8] matmul_benchmark [Device=0 M=2048 N=1024 K=2048]
+Pass: Cold: 12.213457ms GPU, 12.233335ms CPU, 10.16s total GPU, 10.22s total wall, 832x 
+Pass: Batch: 12.201220ms GPU, 10.16s total GPU, 10.20s total wall, 833x
+Run:  [7/8] matmul_benchmark [Device=0 M=1024 N=2048 K=2048]
+Pass: Cold: 12.479259ms GPU, 12.516450ms CPU, 17.77s total GPU, 17.95s total wall, 1424x 
+Pass: Batch: 12.445659ms GPU, 17.74s total GPU, 17.84s total wall, 1425x
+Run:  [8/8] matmul_benchmark [Device=0 M=2048 N=2048 K=2048]
+Pass: Cold: 24.839533ms GPU, 24.867161ms CPU, 13.91s total GPU, 13.97s total wall, 560x 
+Pass: Batch: 24.875340ms GPU, 13.96s total GPU, 13.99s total wall, 561x
+```
+
+# Benchmark Results
+
+## matmul_benchmark
+
+### [0] NVIDIA GeForce RTX 2070 SUPER
+
+|  M   |  N   |  K   | Samples | CPU Time  | Noise | GPU Time  | Noise | Samples | Batch GPU |
+|------|------|------|---------|-----------|-------|-----------|-------|---------|-----------|
+| 1024 | 1024 | 1024 |   1344x |  2.913 ms | 6.21% |  2.899 ms | 5.19% |   1345x |  2.973 ms |
+| 2048 | 1024 | 1024 |    752x |  5.973 ms | 7.78% |  5.933 ms | 6.41% |    753x |  6.084 ms |
+| 1024 | 2048 | 1024 |    944x |  6.202 ms | 7.98% |  6.161 ms | 7.03% |    945x |  6.085 ms |
+| 2048 | 2048 | 1024 |    688x | 12.504 ms | 7.32% | 12.460 ms | 7.04% |    689x | 12.124 ms |
+| 1024 | 1024 | 2048 |    768x |  6.137 ms | 6.33% |  6.117 ms | 5.18% |    769x |  6.130 ms |
+| 2048 | 1024 | 2048 |    832x | 12.233 ms | 5.75% | 12.213 ms | 5.52% |    833x | 12.201 ms |
+| 1024 | 2048 | 2048 |   1424x | 12.516 ms | 6.31% | 12.479 ms | 6.03% |   1425x | 12.446 ms |
+| 2048 | 2048 | 2048 |    560x | 24.867 ms | 4.89% | 24.840 ms | 4.81% |    561x | 24.875 ms |
+| 4096 | 4096 | 4096 |    800x | 200.018 ms| 4.50% | 199.990 ms| 4.49% |    801x | 201.121 ms|

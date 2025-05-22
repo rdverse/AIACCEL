@@ -1,0 +1,220 @@
+GPU Specifications for Device 0:
+  Name: NVIDIA GeForce RTX 2070 SUPER
+  Compute Capability: 7.5
+  Total Global Memory: 7778 MB
+  Shared Memory per Block: 48 KB
+  Registers per Block: 65536
+  Warp Size: 32
+  Max Threads per Block: 1024
+  Max Threads per SM: 1024
+  Number of SMs: 40
+Loaded image: ../assets/lokiandthor.png
+  Width: 1024
+  Height: 1024
+  Channels: 3
+Filter size :0 fused time :0.0388907 nonfused time : 0.065952
+Filter size :1 fused time :0.0834987 nonfused time : 0.114069
+Filter size :2 fused time :0.184619 nonfused time : 0.251477
+Filter size :3 fused time :0.337152 nonfused time : 0.401099
+Filter size :4 fused time :0.541909 nonfused time : 0.568789
+Filter size :5 fused time :0.794251 nonfused time : 0.894507
+Filter size :6 fused time :1.09909 nonfused time : 1.16186
+Filter size :7 fused time :1.45286 nonfused time : 1.61408
+Filter size :8 fused time :1.95087 nonfused time : 1.88928
+Filter size :9 fused time :2.31209 nonfused time : 2.53937
+Filter size :10 fused time :2.81073 nonfused time : 3.02077
+Filter size :11 fused time :3.47643 nonfused time : 3.76496
+Filter size :12 fused time :3.97395 nonfused time : 4.14172
+Filter size :13 fused time :4.62108 nonfused time : 4.96947
+Filter size :14 fused time :5.80862 nonfused time : 5.49005
+Filter size :15 fused time :6.55949 nonfused time : 6.7247
+Filter size :16 fused time :6.88714 nonfused time : 7.45889
+Filter size :17 fused time :7.68481 nonfused time : 8.07772
+Filter size :18 fused time :8.82741 nonfused time : 9.21294
+Filter size :19 fused time :9.53438 nonfused time : 10.135
+Filter size :20 fused time :10.5188 nonfused time : 11.4129
+Filter size :21 fused time :12.5202 nonfused time : 11.8111
+Filter size :22 fused time :12.678 nonfused time : 13.0242
+Filter size :23 fused time :13.8072 nonfused time : 14.3196
+Filter size :24 fused time :16.8239 nonfused time : 15.5411
+Filter size :25 fused time :17.7742 nonfused time : 16.7011
+Filter size :26 fused time :19.1026 nonfused time : 18.2534
+Filter size :27 fused time :20.6953 nonfused time : 19.5944
+Filter size :28 fused time :22.2449 nonfused time : 22.4475
+Filter size :29 fused time :23.976 nonfused time : 22.3519
+Filter size :30 fused time :23.5758 nonfused time : 25.4931
+Filter size :31 fused time :25.386 nonfused time : 25.2422
+Filter size :32 fused time :26.7543 nonfused time : 26.8182
+Filter size :33 fused time :27.2523 nonfused time : 31.6405
+Filter size :34 fused time :30.1977 nonfused time : 30.8224
+Filter size :35 fused time :28.7782 nonfused time : 32.0519
+Filter size :36 fused time :34.2984 nonfused time : 32.3931
+Filter size :37 fused time :36.4149 nonfused time : 35.7179
+Filter size :38 fused time :37.6665 nonfused time : 37.8407
+Filter size :39 fused time :40.0922 nonfused time : 42.0158
+Filter size :40 fused time :41.7933 nonfused time : 41.803
+Filter size :41 fused time :42.5756 nonfused time : 44.0351
+Filter size :42 fused time :41.883 nonfused time : 43.3317
+Filter size :43 fused time :42.5354 nonfused time : 42.6933
+Filter size :44 fused time :48.0258 nonfused time : 50.3885
+Filter size :45 fused time :45.159 nonfused time : 49.5615
+Filter size :46 fused time :50.3782 nonfused time : 53.8801
+Filter size :47 fused time :55.7961 nonfused time : 50.8966
+Filter size :48 fused time :62.7902 nonfused time : 53.1735
+Filter size :49 fused time :59.0788 nonfused time : 55.9948
+Filter size :50 fused time :64.5556 nonfused time : 56.0934
+Filter size :51 fused time :60.8632 nonfused time : 59.5158
+Filter size :52 fused time :62.2597 nonfused time : 66.5351
+Filter size :53 fused time :67.6463 nonfused time : 64.9989
+Filter size :54 fused time :65.5479 nonfused time : 67.6741
+Filter size :55 fused time :72.6393 nonfused time : 69.4268
+Filter size :56 fused time :74.8608 nonfused time : 74.2743
+Filter size :57 fused time :76.7841 nonfused time : 77.9524
+Filter size :58 fused time :78.5519 nonfused time : 80.6425
+Filter size :59 fused time :79.4805 nonfused time : 80.2042
+Filter size :60 fused time :82.7358 nonfused time : 82.3533
+Filter size :61 fused time :86.8982 nonfused time : 90.3818
+Filter size :62 fused time :93.4301 nonfused time : 88.2212
+Filter size :63 fused time :90.2356 nonfused time : 92.3982
+Filter size :64 fused time :94.2275 nonfused time : 97.8624
+Filter size :65 fused time :96.6995 nonfused time : 100.232
+Filter size :66 fused time :100.269 nonfused time : 102.759
+Filter size :67 fused time :107.509 nonfused time : 104.343
+Filter size :68 fused time :106.205 nonfused time : 107.475
+Filter size :69 fused time :108.701 nonfused time : 113.629
+Filter size :70 fused time :113.799 nonfused time : 113.192
+Filter size :71 fused time :116.749 nonfused time : 115.519
+Filter size :72 fused time :118.62 nonfused time : 126.33
+Filter size :73 fused time :122.082 nonfused time : 122.661
+Filter size :74 fused time :126.185 nonfused time : 127.366
+Filter size :75 fused time :130.486 nonfused time : 129.17
+Filter size :76 fused time :133.418 nonfused time : 133.52
+Filter size :77 fused time :135.988 nonfused time : 137.449
+Filter size :78 fused time :141.432 nonfused time : 140.662
+Filter size :79 fused time :143.388 nonfused time : 143.785
+Filter size :80 fused time :149.492 nonfused time : 149.875
+Filter size :81 fused time :151.04 nonfused time : 151.883
+Filter size :82 fused time :156.982 nonfused time : 157.144
+Filter size :83 fused time :158.46 nonfused time : 158.745
+Filter size :84 fused time :164.998 nonfused time : 163.262
+Filter size :85 fused time :168.235 nonfused time : 180.061
+Filter size :86 fused time :178.502 nonfused time : 171.393
+Filter size :87 fused time :183.811 nonfused time : 176.75
+Filter size :88 fused time :187.346 nonfused time : 179.89
+Filter size :89 fused time :183.252 nonfused time : 189.342
+Filter size :90 fused time :188.216 nonfused time : 189.791
+Filter size :91 fused time :191.442 nonfused time : 191.724
+Filter size :92 fused time :196.775 nonfused time : 200.868
+Filter size :93 fused time :199.729 nonfused time : 200.428
+Filter size :94 fused time :206.041 nonfused time : 208.633
+Filter size :95 fused time :208.55 nonfused time : 219.311
+Filter size :96 fused time :213.719 nonfused time : 214.079
+Filter size :97 fused time :222.43 nonfused time : 233.44
+Filter size :98 fused time :222.14 nonfused time : 225.66
+Filter size :99 fused time :224.008 nonfused time : 224.696
+Filter size :100 fused time :231.291 nonfused time : 230.759
+
+Higher values of deltatime and percent improvement better indicate fused kernel is better 
+Filter Size    Non-Fused Time           Fused Time     nonfused-fused time (nonfused-fused)/non-fused%
+----------------------------------------------------------------------------------------------------------------------------------
+0              0.065952                 0.038891       0.027061            41.03 %
+1              0.114069                 0.083499       0.030571            26.80 %
+2              0.251477                 0.184619       0.066859            26.59 %
+3              0.401099                 0.337152       0.063947            15.94 %
+4              0.568789                 0.541909       0.026880            4.73  %
+5              0.894507                 0.794251       0.100256            11.21 %
+6              1.161856                 1.099093       0.062763            5.40  %
+7              1.614080                 1.452864       0.161216            9.99  %
+8              1.889280                 1.950869       -0.061589           -3.26 %
+9              2.539371                 2.312085       0.227286            8.95  %
+10             3.020768                 2.810731       0.210037            6.95  %
+11             3.764960                 3.476427       0.288533            7.66  %
+12             4.141717                 3.973952       0.167765            4.05  %
+13             4.969472                 4.621077       0.348395            7.01  %
+14             5.490048                 5.808619       -0.318571           -5.80 %
+15             6.724704                 6.559488       0.165216            2.46  %
+16             7.458891                 6.887136       0.571755            7.67  %
+17             8.077718                 7.684811       0.392907            4.86  %
+18             9.212939                 8.827414       0.385526            4.18  %
+19             10.134965                9.534378       0.600587            5.93  %
+20             11.412938                10.518794      0.894144            7.83  %
+21             11.811061                12.520181      -0.709120           -6.00 %
+22             13.024203                12.677952      0.346251            2.66  %
+23             14.319552                13.807178      0.512374            3.58  %
+24             15.541057                16.823915      -1.282859           -8.25 %
+25             16.701056                17.774187      -1.073132           -6.43 %
+26             18.253407                19.102623      -0.849216           -4.65 %
+27             19.594421                20.695295      -1.100874           -5.62 %
+28             22.447550                22.244896      0.202654            0.90  %
+29             22.351913                23.975958      -1.624044           -7.27 %
+30             25.493088                23.575819      1.917269            7.52  %
+31             25.242178                25.386017      -0.143839           -0.57 %
+32             26.818220                26.754282      0.063938            0.24  %
+33             31.640471                27.252333      4.388138            13.87 %
+34             30.822401                30.197729      0.624672            2.03  %
+35             32.051884                28.778166      3.273718            10.21 %
+36             32.393131                34.298412      -1.905281           -5.88 %
+37             35.717857                36.414879      -0.697021           -1.95 %
+38             37.840694                37.666496      0.174198            0.46  %
+39             42.015808                40.092194      1.923615            4.58  %
+40             41.803009                41.793320      0.009689            0.02  %
+41             44.035061                42.575649      1.459412            3.31  %
+42             43.331692                41.883007      1.448685            3.34  %
+43             42.693287                42.535412      0.157875            0.37  %
+44             50.388508                48.025791      2.362717            4.69  %
+45             49.561451                45.159008      4.402443            8.88  %
+46             53.880085                50.378155      3.501930            6.50  %
+47             50.896576                55.796051      -4.899475           -9.63 %
+48             53.173473                62.790157      -9.616684           -18.09%
+49             55.994827                59.078815      -3.083988           -5.51 %
+50             56.093418                64.555626      -8.462208           -15.09%
+51             59.515797                60.863201      -1.347404           -2.26 %
+52             66.535088                62.259659      4.275429            6.43  %
+53             64.998863                67.646294      -2.647430           -4.07 %
+54             67.674133                65.547935      2.126198            3.14  %
+55             69.426796                72.639259      -3.212463           -4.63 %
+56             74.274307                74.860756      -0.586449           -0.79 %
+57             77.952431                76.784111      1.168320            1.50  %
+58             80.642540                78.551888      2.090652            2.59  %
+59             80.204163                79.480522      0.723640            0.90  %
+60             82.353325                82.735847      -0.382523           -0.46 %
+61             90.381798                86.898224      3.483574            3.85  %
+62             88.221230                93.430145      -5.208916           -5.90 %
+63             92.398170                90.235558      2.162613            2.34  %
+64             97.862434                94.227478      3.634956            3.71  %
+65             100.231934               96.699455      3.532478            3.52  %
+66             102.759277               100.268562     2.490715            2.42  %
+67             104.343010               107.508911     -3.165901           -3.03 %
+68             107.474922               106.204506     1.270416            1.18  %
+69             113.629433               108.701294     4.928139            4.34  %
+70             113.191734               113.798668     -0.606934           -0.54 %
+71             115.519463               116.748878     -1.229416           -1.06 %
+72             126.330078               118.619652     7.710426            6.10  %
+73             122.660950               122.082298     0.578651            0.47  %
+74             127.366158               126.185265     1.180893            0.93  %
+75             129.170044               130.486084     -1.316040           -1.02 %
+76             133.520386               133.418228     0.102158            0.08  %
+77             137.449203               135.987717     1.461487            1.06  %
+78             140.662155               141.431992     -0.769836           -0.55 %
+79             143.784851               143.388443     0.396408            0.28  %
+80             149.875443               149.492096     0.383347            0.26  %
+81             151.882584               151.039536     0.843048            0.56  %
+82             157.144150               156.982269     0.161880            0.10  %
+83             158.744507               158.460342     0.284164            0.18  %
+84             163.262283               164.997711     -1.735428           -1.06 %
+85             180.060959               168.234756     11.826202           6.57  %
+86             171.392838               178.502274     -7.109436           -4.15 %
+87             176.749527               183.811050     -7.061523           -4.00 %
+88             179.890305               187.346420     -7.456116           -4.14 %
+89             189.342361               183.252319     6.090042            3.22  %
+90             189.791016               188.216431     1.574585            0.83  %
+91             191.723877               191.442184     0.281693            0.15  %
+92             200.867538               196.774948     4.092590            2.04  %
+93             200.428467               199.729202     0.699265            0.35  %
+94             208.632889               206.040909     2.591980            1.24  %
+95             219.310654               208.549576     10.761078           4.91  %
+96             214.078568               213.718872     0.359695            0.17  %
+97             233.439713               222.429703     11.010010           4.72  %
+98             225.659668               222.140442     3.519226            1.56  %
+99             224.696335               224.007980     0.688354            0.31  %
+100            230.759476               231.290665     -0.531189           -0.23 %

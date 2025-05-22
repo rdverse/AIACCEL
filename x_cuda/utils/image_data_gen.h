@@ -23,13 +23,19 @@ public:
     ~ImageHandler();
 
     // Save the image stored in the class
-    void saveImage();
+    void saveImage(unsigned char* imageData = nullptr, const std::string& saveFileName = "saved_image.png");
 
     // Accessor for raw image data
     unsigned char* getImageData() const;
 
     // Accessor for the cv::Mat image
     cv::Mat getImage() const;
+
+    //get height 
+    int getHeight() const;
+
+    //get width
+    int getWidth() const;
 
     // Delete copy constructor and assignment operator to prevent copying
     ImageHandler(const ImageHandler&) = delete;

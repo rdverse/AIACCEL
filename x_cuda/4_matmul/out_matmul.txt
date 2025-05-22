@@ -1,0 +1,42 @@
+
+Matrix size: 4096 x 4096 x 4096
+Run 1: 220.033 ms
+Run 101: 201.156 ms
+Run 201: 208.356 ms
+Run 301: 213.566 ms
+Run 401: 194.502 ms
+Total runs: 500, Average time (last 3 runs): 199.527 ms
+Noise: 4.06636% (calculated over 400 stable runs)
+
+Matrix size: 2048 x 2048 x 2048
+Run 1: 27.7381 ms
+Run 101: 28.7416 ms
+Run 201: 24.1244 ms
+Run 301: 24.4444 ms
+Run 401: 25.9272 ms
+Run 501: 25.8007 ms
+Run 601: 25.3379 ms
+Run 701: 26.5425 ms
+Run 801: 25.0511 ms
+Run 901: 26.535 ms
+Total runs: 1000, Average time (last 3 runs): 24.4798 ms
+Noise: 5.80255% (calculated over 500 stable runs)
+
+Matrix size: 1024 x 1024 x 1024
+Run 1: 3.39558 ms
+Run 101: 3.41402 ms
+Run 201: 3.40381 ms
+Run 301: 3.39546 ms
+Run 401: 3.39302 ms
+Run 501: 3.40797 ms
+Run 601: 3.40541 ms
+Run 701: 3.39888 ms
+Run 801: 3.39357 ms
+Run 901: 3.39344 ms
+Run 1001: 3.39354 ms
+Run 1101: 3.39498 ms
+Run 1201: 3.7417 ms
+Run 1301: 3.39395 ms
+Run 1401: 3.39338 ms
+Total runs: 1500, Average time (last 3 runs): 3.39211 ms
+Noise: 5.64721% (calculated over 500 stable runs)

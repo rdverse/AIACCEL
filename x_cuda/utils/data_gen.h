@@ -10,4 +10,7 @@ __global__ void rand_2d_gen(float *data, int n, int m, int seed);
 
 __global__ void simple_1d_gen(float *a, float *b, int n);
 
+__global__ void simple_1d_gen(int *a, int *b, int n);
+
+
 #endif
