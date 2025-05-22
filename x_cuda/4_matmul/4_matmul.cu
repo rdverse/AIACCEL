@@ -1,13 +1,8 @@
 #include <cuda_runtime.h>
 #include <stdio.h>
 #include <iostream>
-//#include <nvbench/nvbench.cuh>
+#include <nvbench/nvbench.cuh>
 #include <data_gen.h>
-/*
-NVBench is a library for benchmarking CUDA kernels.
-Collecting the time run, memory usage, and other metrics is requiring large amount of boilerplate code.
-One of the main concerns is are caches being flushed or not - see example 3 with image processing.
-*/
 
 
 __global__ void matmul_kernel(int* A, int* B, int* C, int M, int N, int K) {
@@ -25,8 +20,8 @@ __global__ void matmul_kernel(int* A, int* B, int* C, int M, int N, int K) {
         }
         C[row*N + col] = sum;
     }
-
 }
+
 
 
 int main(){
@@ -75,6 +70,8 @@ int main(){
     cudaMemcpy(MAT_C_h, MAT_C_d, M*N*sizeof(int), cudaMemcpyDeviceToHost);
     cudaMemcpy(MAT_A_h, MAT_A_d, M*K*sizeof(int), cudaMemcpyDeviceToHost);
     cudaMemcpy(MAT_B_h, MAT_B_d, K*N*sizeof(int), cudaMemcpyDeviceToHost);
+  
+  
     std::cout << "MAT_A_h: " << std::endl;
     for (int i=0;i<M;i++){
         for (int j=0;j<K;j++){
@@ -96,6 +93,9 @@ int main(){
         }
         printf("\n");
     }
+
+    matmul_kernel<<<gridDim, blockDim>>>(MAT_A_d, MAT_B_d, MAT_C_d, M, N, K);
+
     cudaEventDestroy(start);
     cudaEventDestroy(stop);
 
