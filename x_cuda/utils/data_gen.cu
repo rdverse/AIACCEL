@@ -15,7 +15,7 @@ __global__ void simple_1d_gen(int *a, int *b, int n)
     if (idx < n) {
         a[idx] = static_cast<int>(idx);
         b[idx] = static_cast<int>(idx+1);}
-    printf("simpledatagen: thread %d, block %d\n", threadIdx.x, blockIdx.x);
+    //printf("simpledatagen: thread %d, block %d\n", threadIdx.x, blockIdx.x);
 }
 
 __global__ void simple_1d_gen(float *a, float *b, int n)
@@ -28,5 +28,5 @@ __global__ void simple_1d_gen(float *a, float *b, int n)
     if (idx < n) {
         a[idx] = static_cast<float>(idx);
         b[idx] = static_cast<float>(idx+1);}
-    printf("simpledatagen: thread %d, block %d\n", threadIdx.x, blockIdx.x);
+    //printf("simpledatagen: thread %d, block %d\n", threadIdx.x, blockIdx.x);
 }

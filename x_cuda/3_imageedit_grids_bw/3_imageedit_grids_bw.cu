@@ -51,7 +51,7 @@ __global__ void grayscale_kernel(unsigned char* image, unsigned char* gray_image
 
 __global__ void blur_kernel(unsigned char* image,
     unsigned char* blurred_image, int width, int height,
-    int filter_size){
+    int filter_size, bool grayscale=true){
     int x_coord = blockIdx.x*blockDim.x + threadIdx.x; 
     int y_coord = blockIdx.y*blockDim.y + threadIdx.y;
     // printf("Blur kernel: thread %d, block %d, pixel (%d, %d)\n", 
@@ -106,19 +106,18 @@ __global__ void blur_grayscale_fused_kernel(unsigned char* image,
     //     threadIdx.x, blockIdx.x, x_coord, y_coord);
     // convert to grayscale 
     // use below code for grayscle conversion if only comparing 
-    if (grayscale && x_coord < width && y_coord < height) {
-        int pixel_index = (y_coord*width + x_coord)*3;
-        unsigned int r = image[pixel_index];
-        unsigned int g = image[pixel_index + 1];
-        unsigned int b = image[pixel_index + 2];
-        unsigned char gray = (r + g + b) / 3;
-        image[pixel_index] = gray;
-        image[pixel_index + 1] = gray;
-        image[pixel_index + 2] = gray;
-        // synchronize threads to ensure all threads have completed grayscale conversion
-        __syncthreads();
-    }
-
+    // if (grayscale && x_coord < width && y_coord < height) {
+    //     int pixel_index = (y_coord*width + x_coord)*3;
+    //     unsigned int r = image[pixel_index];
+    //     unsigned int g = image[pixel_index + 1];
+    //     unsigned int b = image[pixel_index + 2];
+    //     unsigned char gray = (r + g + b) / 3;
+    //     image[pixel_index] = gray;
+    //     image[pixel_index + 1] = gray;
+    //     image[pixel_index + 2] = gray;
+    //     // synchronize threads to ensure all threads have completed grayscale conversion
+    //     __syncthreads();
+    // }
     // blur the image 
     if (x_coord<width && y_coord<height){
         //printf("Blur kernel: thread %d, block %d, pixel (%d, %d)\n",
@@ -138,7 +137,6 @@ __global__ void blur_grayscale_fused_kernel(unsigned char* image,
                 //threadIdx.x, blockIdx.x, x, y);
                 int pixel_index = (y*width + x)*3;
                 // keeping this consistent with the blur kernel, at this point r=g=b=gray
-    
                 r_sum += image[pixel_index];
                 g_sum += image[pixel_index + 1];
                 b_sum += image[pixel_index + 2];
@@ -150,7 +148,15 @@ __global__ void blur_grayscale_fused_kernel(unsigned char* image,
                 }
             }
         }
+    
     int pixel_index = (y_coord*width + x_coord)*3;
+    
+    if (grayscale) {
+    unsigned char gray_blur = (r_sum + g_sum + b_sum) / (3*count_pxs);
+    blurred_image[pixel_index] = gray_blur;
+    blurred_image[pixel_index + 1] = gray_blur;
+    blurred_image[pixel_index + 2] = gray_blur;
+    }else{
     unsigned char gray_blur = (r_sum + g_sum + b_sum) / (3*count_pxs);
     unsigned char r_avg = r_sum/count_pxs;
     unsigned char g_avg = g_sum/count_pxs;
@@ -158,6 +164,7 @@ __global__ void blur_grayscale_fused_kernel(unsigned char* image,
     blurred_image[pixel_index] = r_avg;
     blurred_image[pixel_index + 1] = g_avg;
     blurred_image[pixel_index + 2] = b_avg;
+        }
     }
 }
 
@@ -199,7 +206,7 @@ void print_results(std::map<int, KernelTiming> results) {
 }
 
 
-float kernel_launcher(const ImageHandler& handler, int filter_size,
+float kernel_launcher(ImageHandler& handler, int filter_size,
                     bool fused = false) {
     
     unsigned char* d_image;
@@ -247,8 +254,12 @@ float kernel_launcher(const ImageHandler& handler, int filter_size,
     if (!fused) {
         cudaFree(d_gray_image);
     }
+    cudaMemcpy(h_blurred_image, d_blurred_image, height*width*3*sizeof(unsigned char), cudaMemcpyDeviceToHost);
     cudaFree(d_blurred_image);
     cudaFree(d_image);
+    // save image
+    handler.saveImage(h_blurred_image, fused ? ("build/fused_" + std::to_string(filter_size) + ".png").c_str()
+                                             : ("build/nonfused_" + std::to_string(filter_size) + ".png").c_str());
     return blurms;
 }
 
