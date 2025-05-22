@@ -42,4 +42,4 @@ $(BUILDDIR)/%.o: $(UTILDIR)/%.cu
 
 # Clean build files
 clean:
-	rm -rf $(BUILDDIR) $(TARGET)
+	rm -rvf $(BUILDDIR) $(TARGET)

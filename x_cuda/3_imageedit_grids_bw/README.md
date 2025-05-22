@@ -1,6 +1,26 @@
-## Current Benchmarking Limitations
+## Run command
+rm-rvf *.png;rm imageedit_grids_bw;make clean;make all;./imageedit_grids_bw
 
-The current method provides initial performance insights but has several characteristics that can affect the precision and reliability of the measurements:
+## Initial setup
+
+
+```cpp
+// --- Pseudocode for Current Timing ---
+/*
+.
+.
+cuda even create and start
+my_kernel_to_benchmark_1<<<...>>>(...); // Launch the CUDA kernel
+event synchronize
+
+cuda even create and start
+my_kernel_to_benchmark_2<<<...>>>(...); // Launch the CUDA kernel
+event synchronize
+.
+.
+*/
+
+The above implementation had several limitations which were fixed in the current setup
 
 **1. Lack of Pre-Measurement Warm-up**
 - The initial kernel invocation includes overhead from driver setup and resource allocation.
@@ -27,26 +47,6 @@ The current method provides initial performance insights but has several charact
 - This approach hides variability and may misrepresent actual performance.
 - *Mitigation: Gather a larger sample of measurements, compute statistical summaries, and visualize distributions.*
 
-## Core Timing Pseudocode
-
-The fundamental approach for measuring kernel execution time is as follows:
-
-```cpp
-// --- Pseudocode for Current Timing ---
-/*
-.
-.
-cuda even create and start
-my_kernel_to_benchmark_1<<<...>>>(...); // Launch the CUDA kernel
-event synchronize
-
-cuda even create and start
-my_kernel_to_benchmark_2<<<...>>>(...); // Launch the CUDA kernel
-event synchronize
-.
-.
-*/
-
 
 ## Other Points 
 
@@ -60,9 +60,14 @@ event synchronize
 ## Results 
 
 Below is time in ms with about 3-5% run-to-run variation
+These results are when the fused kernel is nearly equal to the non-fused kernels implementation i.e., follows exact same steps
+In this case, the perf gains for fused kernel were minimal across various filter sizes (see out2.txt)
 Method   Filter size   fused   non-fused       
 Nsight     100         224     238
 Manual     100         227     226 
 Nsight     40          40.1    42.8                  
-Manual     40          44.7    46.9   
+Manual     40          44.7    46.9
+
+The results for slightly more optimized fused kernel is shown in out.txt
+- after optimization overall the fused kernel showed better perf
 
