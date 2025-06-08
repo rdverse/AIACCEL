@@ -19,7 +19,6 @@ struct TreeNode {
       TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
   };
  
-
 class Solution {
 public:
     bool isSameTree(TreeNode* p, TreeNode* q) {
@@ -29,15 +28,11 @@ public:
         }
         
         // If one node is null and other isn't, trees are different
-        if (p == NULL || q == NULL) {
+        if (p == NULL || q == NULL || p->val != q->val) {
             return false;
         }
-        
-        // Compare values and recursively check children
-        if (p->val != q->val) {
-            return false;
-        }
-        
+
+        // pval and qval is same so check the next val
         return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
     }
 };
