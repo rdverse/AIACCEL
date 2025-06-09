@@ -44,8 +44,7 @@ TreeNode* lowestCommonAncestorRecursive(TreeNode* root, TreeNode* p, TreeNode* q
             return root;
         }
     return nullptr;
-}
-
+} // O(h) iterations, O(h) for calls
 
 
 int main() {
