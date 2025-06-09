@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <random>
-#define THREAD_COUNT 20 
+#define THREAD_COUNT 2
 
 /*
 Problem Statement:
