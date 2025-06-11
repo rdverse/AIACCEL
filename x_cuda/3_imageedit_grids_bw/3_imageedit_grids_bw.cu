@@ -243,6 +243,8 @@ float kernel_launcher(ImageHandler& handler, int filter_size,
     } else {
         // Launch the grayscale kernel
         grayscale_kernel<<<grid, block>>>(d_image,d_gray_image, width, height);
+        // needed between kernels        
+        cudaDeviceSynchronize();  
         // Launch the blur kernel
         blur_kernel<<<grid, block>>>(d_gray_image, d_blurred_image, width, height, filter_size);
     }
