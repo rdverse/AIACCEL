@@ -60,11 +60,19 @@ Tiling is a technique that divides the computation into smaller blocks (tiles) t
 ## Building and Running
 
 ```bash
+# for the nvbench version
 mkdir build && cd build
 cmake ..
 make
 ./5_matmul_tiled
 ```
+```bash
+# for the nvbench version use makefile in folder
+make
+./5_matmul_tiled
+```
+
+
 
 ## Results
 
