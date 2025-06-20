@@ -1,9 +1,15 @@
+#include <stdio.h>
+#include <iostream>
+
 #ifndef CONV_FILTERS_H
 #define CONV_FILTERS_H
 
 constexpr int NUM_FILTERS = 9;
 constexpr int FILTER_SIZE = 3;
 constexpr int R=1;
+constexpr int TILE_DIM = 32; 
+constexpr int OUT_TILE_DIM = TILE_DIM-2*R;
+constexpr int CHANNELS = 3;
 
 // 9 filters: identity, edge, sharpen, box blur, gaussian blur, emboss, outline, left sobel, right sobel
 constexpr const int FILTERS[NUM_FILTERS][FILTER_SIZE][FILTER_SIZE] = {

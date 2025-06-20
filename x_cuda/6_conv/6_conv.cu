@@ -1,50 +1,19 @@
 #include <iostream>
 #include "../utils/image_data_gen.h"
 #include <conv_filters.h>
-
-// CUDA kernel for 2D convolution with multiple channels and filters
-__global__ void conv2d_kernel(const unsigned char* input,
-    unsigned char* output,
-    const int* filter,
-    int width, 
-    int height, 
-    int channels,
-    int filterIdx) {
-    
-    int tx = threadIdx.x;
-    int ty = threadIdx.y;
-    int col = blockDim.x * blockIdx.x + tx;
-    int row = blockDim.y * blockIdx.y + ty;
-    
-    // Check bounds
-    if (row >= height || col >= width) return;
-    
-    // Process each channel
-    for (int c = 0; c < channels; c++) {
-        float Pval = 0.0f;
-        
-        // Apply convolution filter
-        for (int fRow = 0; fRow < 2*R+1; fRow++) {
-            for (int fCol = 0; fCol < 2*R+1; fCol++) {
-                int inRow = row + fRow - R;
-                int inCol = col + fCol - R;
-                
-                // Handle boundary conditions with zero padding
-                if (inRow >= 0 && inRow < height && inCol >= 0 && inCol < width) {
-                    int inputIdx = (inRow * width + inCol) * channels + c;
-                    int filterIdx_local = fRow * (2*R+1) + fCol;
-                    Pval += input[inputIdx] * filter[filterIdx_local];
-                }
-            }
-        }
-        
-        // Store result with proper indexing for multiple filters
-        int outputIdx = ((filterIdx * height + row) * width + col) * channels + c;
-        output[outputIdx] = (unsigned char)min(max((int)Pval, 0), 255);
-    }
-}
+#include <kernels.cuh>
+#include <cuda_runtime.h>
 
 
+#define CUDA_CHECK(call) \
+    do { \
+        cudaError_t err = (call); \
+        if (err != cudaSuccess) { \
+            fprintf(stderr, "CUDA error at %s:%d: %s\n", \
+                    __FILE__, __LINE__, cudaGetErrorString(err)); \
+            exit(EXIT_FAILURE); \
+        } \
+    } while (0)
 
 
 int main() {
@@ -53,20 +22,19 @@ int main() {
         ImageHandler imgHandler("../assets/lokiandthor.png");
         int width = imgHandler.getWidth();
         int height = imgHandler.getHeight();
-        int channels = imgHandler.getImage().channels();
+        //int CHANNELS = imgHandler.getImage().channels();
         unsigned char* imgData = imgHandler.getImageData();
 
-        std::cout << "Image loaded: " << width << "x" << height << " channels: " << channels << std::endl;
+        std::cout << "Image loaded: " << width << "x" << height << " channels: " << CHANNELS << std::endl;
 
-        
         print_filters();
 
         // Allocate device memory
         unsigned char *d_input, *d_output;
         int *d_filters;
 
-        size_t imgSize = width * height * channels * sizeof(unsigned char);
-        size_t outputSize = NUM_FILTERS * width * height * channels * sizeof(unsigned char);
+        size_t imgSize = width * height * CHANNELS * sizeof(unsigned char);
+        size_t outputSize = NUM_FILTERS * width * height * CHANNELS * sizeof(unsigned char);
         size_t filterSize = FILTER_SIZE * FILTER_SIZE * sizeof(int);
         
         cudaMalloc(&d_input, imgSize);
@@ -97,11 +65,12 @@ int main() {
             // Copy filter to device
             cudaMemcpy(d_filters, flatFilter, filterSize, cudaMemcpyHostToDevice);
 
-           for(int i=0;i<1000000;i++){
+           for(int i=0;i<1;i++){
 
-            // Launch kernel
+            // Launch the simple, non-tiled kernel which is guaranteed to be correct
             conv2d_kernel<<<numBlocks, threadsPerBlock>>>(
-                d_input, d_output, d_filters, width, height, channels, filterIdx);
+                d_input, d_output, d_filters, width, height, filterIdx);
+
             
            } 
             // Check for kernel errors
@@ -120,23 +89,24 @@ int main() {
 
         // Save each filter result as a separate image
         for (int filterIdx = 0; filterIdx < NUM_FILTERS; filterIdx++) {
-            unsigned char* currentOutput = &allOutputs[filterIdx * width * height * channels];
+            unsigned char* currentOutput = &allOutputs[filterIdx * width * height * CHANNELS];
             
             // Create filename
             std::string filename = "conv_output_filter_" + std::to_string(filterIdx) + ".png";
             
             // If input is grayscale but we need RGB output
-            if (channels == 1) {
+            if (CHANNELS == 1) {
                 unsigned char* rgbOutput = new unsigned char[width * height * 3];
                 for (int i = 0; i < width * height; ++i) {
                     rgbOutput[3*i + 0] = currentOutput[i]; 
                     rgbOutput[3*i + 1] = currentOutput[i]; 
                     rgbOutput[3*i + 2] = currentOutput[i]; 
+                    #pragma message ("Warning : The output is not in rgb format")
                 }
                 imgHandler.saveImage(rgbOutput, filename, 3);
                 delete[] rgbOutput;
             } else {
-                imgHandler.saveImage(currentOutput, filename, channels);
+                imgHandler.saveImage(currentOutput, filename, CHANNELS);
             }
             
             std::cout << "Saved: " << filename << std::endl;
@@ -144,7 +114,7 @@ int main() {
 
         // Print first few values for debugging
         std::cout << "First 20 values of filter 0 output: ";
-        for (int i = 0; i < 20 && i < width * height * channels; ++i) {
+        for (int i = 0; i < 20 && i < width * height * CHANNELS; ++i) {
             std::cout << static_cast<int>(allOutputs[i]) << " ";
         }
         std::cout << std::endl;
