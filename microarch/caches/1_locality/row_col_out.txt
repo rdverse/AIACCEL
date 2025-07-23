@@ -1,0 +1,167 @@
+# dmidecode 3.5
+Getting SMBIOS data from sysfs.
+SMBIOS 3.2.0 present.
+
+Handle 0x0009, DMI type 7, 27 bytes
+Cache Information
+	Socket Designation: L1 - Cache
+	Configuration: Enabled, Not Socketed, Level 1
+	Operational Mode: Write Back
+	Location: Internal
+	Installed Size: 512 kB
+	Maximum Size: 512 kB
+	Supported SRAM Types:
+		Pipeline Burst
+	Installed SRAM Type: Pipeline Burst
+	Speed: 1 ns
+	Error Correction Type: Multi-bit ECC
+	System Type: Unified
+	Associativity: 8-way Set-associative
+
+Handle 0x000A, DMI type 7, 27 bytes
+Cache Information
+	Socket Designation: L2 - Cache
+	Configuration: Enabled, Not Socketed, Level 2
+	Operational Mode: Write Back
+	Location: Internal
+	Installed Size: 4 MB
+	Maximum Size: 4 MB
+	Supported SRAM Types:
+		Pipeline Burst
+	Installed SRAM Type: Pipeline Burst
+	Speed: 1 ns
+	Error Correction Type: Multi-bit ECC
+	System Type: Unified
+	Associativity: 8-way Set-associative
+
+Handle 0x000B, DMI type 7, 27 bytes
+Cache Information
+	Socket Designation: L3 - Cache
+	Configuration: Enabled, Not Socketed, Level 3
+	Operational Mode: Write Back
+	Location: Internal
+	Installed Size: 32 MB
+	Maximum Size: 32 MB
+	Supported SRAM Types:
+		Pipeline Burst
+	Installed SRAM Type: Pipeline Burst
+	Speed: 1 ns
+	Error Correction Type: Multi-bit ECC
+	System Type: Unified
+	Associativity: 16-way Set-associative
+
+CACHE INFO
+warning - latencies are incorrect
+None
+DIMM INFO
+
+{   'Bus_width': '64 bits',
+    'Part': 'KHX3200C16D4/16GX',
+    'Rank': '2',
+    'Size': '16 GB',
+    'Slot': 'XMM2',
+    'Speed': '2133 MT/s',
+    'Type': 'DDR4',
+    'ndimms': 4}
+THEORETICAL BANDWIDTH 34.128 GB/s
+DIMM INFO
+
+{   'Bus_width': '64 bits',
+    'Part': 'KHX3200C16D4/16GX',
+    'Rank': '2',
+    'Size': '16 GB',
+    'Slot': 'XMM2',
+    'Speed': '2133 MT/s',
+    'Type': 'DDR4',
+    'ndimms': 4}
+THEORETICAL BANDWIDTH 34.128 GB/s
+
+Benchmarking matrix summation in numpy on single core with cache locality analysis
+
+Matrix Size: 0 x 0
+  Row-major sum time:     0.000005 s, Throughput: 0.00 GB/s
+  Column-major sum time:  0.000006 s, Throughput: 0.00 GB/s
+  Speedup (row vs col):   1.20x
+
+Matrix Size: 1024 x 1024
+  Row-major sum time:     0.003887 s, Throughput: 1.00 GB/s
+  Column-major sum time:  0.015379 s, Throughput: 0.25 GB/s
+  Speedup (row vs col):   3.96x
+
+Matrix Size: 2048 x 2048
+  Row-major sum time:     0.005600 s, Throughput: 2.79 GB/s
+  Column-major sum time:  0.049378 s, Throughput: 0.32 GB/s
+  Speedup (row vs col):   8.82x
+
+Matrix Size: 3072 x 3072
+  Row-major sum time:     0.007880 s, Throughput: 4.46 GB/s
+  Column-major sum time:  0.062604 s, Throughput: 0.56 GB/s
+  Speedup (row vs col):   7.94x
+
+Matrix Size: 4096 x 4096
+Warning: sums differ (diff=14.000000)
+  Row-major sum time:     0.011115 s, Throughput: 5.62 GB/s
+  Column-major sum time:  1.155653 s, Throughput: 0.05 GB/s
+  Speedup (row vs col):   103.97x
+
+Matrix Size: 5120 x 5120
+  Row-major sum time:     0.014964 s, Throughput: 6.53 GB/s
+  Column-major sum time:  0.171905 s, Throughput: 0.57 GB/s
+  Speedup (row vs col):   11.49x
+
+Matrix Size: 6144 x 6144
+Warning: sums differ (diff=40.000000)
+  Row-major sum time:     0.019052 s, Throughput: 7.38 GB/s
+  Column-major sum time:  0.346613 s, Throughput: 0.41 GB/s
+  Speedup (row vs col):   18.19x
+
+Matrix Size: 7168 x 7168
+Warning: sums differ (diff=80.000000)
+  Row-major sum time:     0.025455 s, Throughput: 7.52 GB/s
+  Column-major sum time:  0.307038 s, Throughput: 0.62 GB/s
+  Speedup (row vs col):   12.06x
+
+Matrix Size: 8192 x 8192
+Warning: sums differ (diff=76.000000)
+  Row-major sum time:     0.028694 s, Throughput: 8.71 GB/s
+  Column-major sum time:  7.882431 s, Throughput: 0.03 GB/s
+  Speedup (row vs col):   274.70x
+
+Matrix Size: 9216 x 9216
+  Row-major sum time:     0.033476 s, Throughput: 9.45 GB/s
+  Column-major sum time:  0.501351 s, Throughput: 0.63 GB/s
+  Speedup (row vs col):   14.98x
+
+Matrix Size: 10240 x 10240
+Warning: sums differ (diff=64.000000)
+  Row-major sum time:     0.039893 s, Throughput: 9.79 GB/s
+  Column-major sum time:  1.058630 s, Throughput: 0.37 GB/s
+  Speedup (row vs col):   26.54x
+
+Matrix Size: 11264 x 11264
+Warning: sums differ (diff=156.000000)
+  Row-major sum time:     0.050239 s, Throughput: 9.41 GB/s
+  Column-major sum time:  0.855378 s, Throughput: 0.55 GB/s
+  Speedup (row vs col):   17.03x
+
+Matrix Size: 12288 x 12288
+  Row-major sum time:     0.058311 s, Throughput: 9.65 GB/s
+  Column-major sum time:  12.298674 s, Throughput: 0.05 GB/s
+  Speedup (row vs col):   210.92x
+
+Matrix Size: 13312 x 13312
+Warning: sums differ (diff=192.000000)
+  Row-major sum time:     0.060872 s, Throughput: 10.85 GB/s
+  Column-major sum time:  1.058178 s, Throughput: 0.62 GB/s
+  Speedup (row vs col):   17.38x
+
+Matrix Size: 14336 x 14336
+  Row-major sum time:     0.071010 s, Throughput: 10.78 GB/s
+  Column-major sum time:  2.367216 s, Throughput: 0.32 GB/s
+  Speedup (row vs col):   33.34x
+
+Matrix Size: 15360 x 15360
+  Row-major sum time:     0.076389 s, Throughput: 11.51 GB/s
+  Column-major sum time:  1.361143 s, Throughput: 0.65 GB/s
+  Speedup (row vs col):   17.82x
+
