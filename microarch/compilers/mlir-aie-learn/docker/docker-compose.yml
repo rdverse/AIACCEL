@@ -1,0 +1,20 @@
+services:
+  mlir-aie:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mlir-aie-dev
+    volumes:
+      - .:/workspace
+      - mlir-aie-cache:/home/mlir-aie/.cache
+    working_dir: /home/mlir-aie/mlir-aie/programming_examples
+    environment:
+      - MLIR_AIE_DIR=/home/mlir-aie/.local/lib/python3.12/site-packages/mlir_aie
+      - PEANO_INSTALL_DIR=/home/mlir-aie/.local/lib/python3.12/site-packages/llvm_aie
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+
+volumes:
+  mlir-aie-cache:
+

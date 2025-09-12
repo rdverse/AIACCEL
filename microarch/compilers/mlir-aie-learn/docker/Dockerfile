@@ -1,59 +1,81 @@
-# Start with the ROCm MLIR image
-FROM rocm/mlir:latest
+FROM ubuntu:24.04
 
-# Add repository for GCC-12
-RUN apt-get update && apt-get install -y software-properties-common && \
-    add-apt-repository -y ppa:ubuntu-toolchain-r/test
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
 
-# Install dependencies
+# Install system dependencies
 RUN apt-get update && apt-get install -y \
-    git \
+    build-essential \
+    clang \
+    clang-14 \
+    lld \
+    lld-14 \
     cmake \
     ninja-build \
     python3 \
+    python3-venv \
     python3-pip \
-    g++-12 \
-    clang \
-    lld \
-    libstdc++-12-dev \
-    ca-certificates \
-    && apt-get clean \
+    python3-dev \
+    git \
+    wget \
+    curl \
+    libopencv-dev \
+    python3-opencv \
+    libffi-dev \
+    libssl-dev \
+    zlib1g-dev \
+    libbz2-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    libncursesw5-dev \
+    xz-utils \
+    tk-dev \
+    libxml2-dev \
+    libxmlsec1-dev \
+    liblzma-dev \
+    gcc-13 \
+    g++-13 \
+    pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
-# Update certificates
-RUN update-ca-certificates
+# Create mlir-aie user
+RUN useradd -m -s /bin/bash mlir-aie && \
+    usermod -aG sudo mlir-aie && \
+    echo "mlir-aie ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# Set up Python environment
-RUN python3 -m pip install --upgrade pip
-RUN python3 -m pip install numpy pandas pytest cmake
+# Switch to mlir-aie user
+USER mlir-aie
+WORKDIR /home/mlir-aie
 
-# Clone mlir-aie repository
-WORKDIR /opt
-RUN git clone https://github.com/Xilinx/mlir-aie.git
-WORKDIR /opt/mlir-aie
+# Create virtual environment
+RUN python3 -m venv ironenv
 
-# Create and activate virtual environment
-RUN python3 -m pip install virtualenv
-RUN python3 -m virtualenv ironenv
-ENV PATH="/opt/mlir-aie/ironenv/bin:${PATH}"
-
-# Install MLIR-AIE requirements - with SSL verification disabled
+# Activate virtual environment and upgrade pip
 RUN . ironenv/bin/activate && \
-    python3 -m pip install --trusted-host github.com --trusted-host release-assets.githubusercontent.com \
-    mlir_aie -f https://github.com/Xilinx/mlir-aie/releases/expanded_assets/latest-wheels-2 && \
-    python3 -m pip install --trusted-host github.com --trusted-host release-assets.githubusercontent.com \
-    llvm-aie -f https://github.com/Xilinx/llvm-aie/releases/expanded_assets/nightly && \
-    HOST_MLIR_PYTHON_PACKAGE_PREFIX=aie python3 -m pip install -r python/requirements_extras.txt && \
-    python3 -m pip install -r python/requirements_dev.txt && \
-    pre-commit install || true
-# # Set environment variables
-# ENV PYTHONPATH="/opt/mlir-aie/python:${PYTHONPATH:-}"
+    python3 -m pip install --upgrade pip
 
-# Create a directory for working with examples
-WORKDIR /workspace
+# Install common Python dependencies first
+RUN . ironenv/bin/activate && \
+    python3 -m pip install numpy pybind11 wheel setuptools
 
-# Add entrypoint script to activate environment
-RUN echo '#!/bin/bash\nsource /opt/mlir-aie/ironenv/bin/activate\nexec "$@"' > /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+# Clone mlir-aie repository for examples and headers
+RUN git clone --depth 1 https://github.com/Xilinx/mlir-aie.git
+
+# Set up environment
+RUN echo 'source ~/ironenv/bin/activate' >> ~/.bashrc
+
+# Create a setup script for easy environment activation
+RUN echo '#!/bin/bash' > setup_env.sh && \
+    echo 'source ~/ironenv/bin/activate' >> setup_env.sh && \
+    echo 'export PYTHONPATH=/home/mlir-aie/mlir-aie/python:$PYTHONPATH' >> setup_env.sh && \
+    echo 'echo "Environment set up successfully!"' >> setup_env.sh && \
+    echo 'echo "PYTHONPATH: $PYTHONPATH"' >> setup_env.sh && \
+    echo 'echo "Current directory: $(pwd)"' >> setup_env.sh && \
+    chmod +x setup_env.sh
+
+# Set working directory to programming examples
+WORKDIR /home/mlir-aie/mlir-aie/programming_examples
+
+# Default command
 CMD ["/bin/bash"]
